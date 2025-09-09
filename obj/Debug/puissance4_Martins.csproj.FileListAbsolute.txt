@@ -1,0 +1,7 @@
+C:\Users\pm71cef\Desktop\puissance4_Martins\bin\Debug\puissance4_Martins.exe.config
+C:\Users\pm71cef\Desktop\puissance4_Martins\bin\Debug\puissance4_Martins.exe
+C:\Users\pm71cef\Desktop\puissance4_Martins\bin\Debug\puissance4_Martins.pdb
+C:\Users\pm71cef\Desktop\puissance4_Martins\obj\Debug\puissance4_Martins.csproj.AssemblyReference.cache
+C:\Users\pm71cef\Desktop\puissance4_Martins\obj\Debug\puissance4_Martins.csproj.CoreCompileInputs.cache
+C:\Users\pm71cef\Desktop\puissance4_Martins\obj\Debug\puissance4_Martins.exe
+C:\Users\pm71cef\Desktop\puissance4_Martins\obj\Debug\puissance4_Martins.pdb
