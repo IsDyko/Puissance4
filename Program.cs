@@ -13,13 +13,18 @@ namespace puissance4_Martins
             int nombreColonnes;
             int nombreLignes;
 
+            Console.SetWindowPosition(0, 0);
+            Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Console.SetWindowSize(200, 50);
+
             CreationEnTete();
             MenuDemarrage(out nombreColonnes, out nombreLignes);
 
             Console.Clear();
 
             CreationEnTete();
-            GenTableau(nombreColonnes, nombreLignes);
+            var tableau = GenTableau(nombreColonnes, nombreLignes);
+            Gameplay(tableau);
         }
 
         /// <summary>
@@ -140,7 +145,7 @@ namespace puissance4_Martins
         /// </summary>
         /// <param name="Colonnes">Prend le nombre de colonnes de l'utilisateur</param>
         /// <param name="Lignes">Prend le nombre de lignes de l'utilisateur</param>
-        static void GenTableau(int Colonnes, int Lignes)
+        static char[,] GenTableau(int Colonnes, int Lignes)
         {
             // Création d'un nouvel élement tableau
             char[,] tableau = new char[Lignes, Colonnes];
@@ -150,7 +155,7 @@ namespace puissance4_Martins
             {
                 for (int c = 0; c < Colonnes; c++)
                 {
-                    tableau[r, c] = ' ';
+                    Gameplay(tableau);
                 }
             }
 
@@ -203,15 +208,15 @@ namespace puissance4_Martins
                         if (c == 0)
                         {
                             Console.Write("\t╚═════╩");
-                        }    
+                        }
                         else if (c < Colonnes - 1)
                         {
                             Console.Write("═════╩");
-                        }   
+                        }
                         else
                         {
                             Console.Write("═════╝");
-                        }   
+                        }
                     }
                 }
             }
@@ -227,16 +232,16 @@ namespace puissance4_Martins
                 {
                     if (c == 0 && r == 0)
                     {
-                        Console.Write("\t╔═════╦");    
-                    }    
+                        Console.Write("\t╔═════╦");
+                    }
                     else if (r == 0 && c < Colonnes - 1)
                     {
                         Console.Write("═════╦");
                     }
                     else if (r == 0 && c < Colonnes)
                     {
-                    Console.Write("═════╗");
-                    }    
+                        Console.Write("═════╗");
+                    }
                 }
 
                 Console.WriteLine();
@@ -244,18 +249,18 @@ namespace puissance4_Martins
                 // Boucle pour la ligne du milieu
                 for (int c = 0; c < Colonnes; c++)
                 {
-                   if (c == 0)
-                   {
+                    if (c == 0)
+                    {
                         Console.Write("\t║  " + tableau[r, c] + "  ");
-                   }
-                   else if (c < Colonnes - 1)
-                   {
+                    }
+                    else if (c < Colonnes - 1)
+                    {
                         Console.Write("║  " + tableau[r, c] + "  ");
-                   }
-                   else
-                   {
+                    }
+                    else
+                    {
                         Console.Write("║  " + tableau[r, c] + "  ║");
-                   }
+                    }
 
                 }
 
@@ -264,43 +269,69 @@ namespace puissance4_Martins
                 // Boucle pour la ligne du bas
                 for (int c = 0; c < Colonnes; c++)
                 {
-                   if (r < Lignes - 1)
-                   {
-                      if (c == 0)
-                      {
-                         Console.Write("\t╠═════╬"); // bord gauche
-                      }
-                      else if (c == Colonnes - 1)
-                      {
-                         Console.Write("═════╣"); // bord droit
-                      }
-                      else
-                      {
-                         Console.Write("═════╬"); // milieux
-                      }
-                   }
-                   else
-                   {
-                      if (c == 0)
-                      {
-                         Console.Write("\t╚═════╩"); // coin bas gauche
-                      }
-                      else if (c == Colonnes - 1)
-                      {
-                         Console.Write("═════╝"); // coin bas droit
-                      }
-                      else
-                      {
-                         Console.Write("═════╩"); // bas milieu
-                      }
-                   }
+                    if (r < Lignes - 1)
+                    {
+                        if (c == 0)
+                        {
+                            Console.Write("\t╠═════╬"); // bord gauche
+                        }
+                        else if (c == Colonnes - 1)
+                        {
+                            Console.Write("═════╣"); // bord droit
+                        }
+                        else
+                        {
+                            Console.Write("═════╬"); // milieux
+                        }
+                    }
+                    else
+                    {
+                        if (c == 0)
+                        {
+                            Console.Write("\t╚═════╩"); // coin bas gauche
+                        }
+                        else if (c == Colonnes - 1)
+                        {
+                            Console.Write("═════╝"); // coin bas droit
+                        }
+                        else
+                        {
+                            Console.Write("═════╩"); // bas milieu
+                        }
+                    }
                 }
             }
-        }
 
-        static void Gameplay()
+            int tableauLargeur = 8 * Colonnes;
+            int offset = tableauLargeur + 10;
+
+            Console.SetCursorPosition(offset, 5);
+            Console.Write("Mode d'utilisation");
+            Console.WriteLine();
+            Console.SetCursorPosition(offset, 6);
+            Console.Write("-------------------");
+            Console.WriteLine();
+            Console.SetCursorPosition(offset + 3, 7);
+            Console.Write("Déplacement\tTouches directionnelles");
+            Console.WriteLine();
+            Console.SetCursorPosition(offset + 3, 8);
+            Console.Write("Tir\t\tSpacebar ou Enter");
+            Console.WriteLine();
+            Console.SetCursorPosition(offset + 3, 9);
+            Console.Write("Quitter\t\tEscape");
+            Console.WriteLine();
+            Console.SetCursorPosition(offset + 3, 11);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Jouer 1: ■");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("\t\tJoueur 2: ■");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            return tableau;
+        }
+        static void Gameplay(char[,] tableau)
         {
-            
+            tableau[0, 0] = '■';
         }
     }
 }
