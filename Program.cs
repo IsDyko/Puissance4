@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace puissance4_Martins
 {
@@ -23,12 +19,13 @@ namespace puissance4_Martins
             Console.Clear();
 
             CreationEnTete();
+            var navigation = GenNavigation(1, nombreColonnes);
             var tableau = GenTableau(nombreColonnes, nombreLignes);
-            Gameplay(tableau);
+            Gameplay(tableau, navigation);
         }
 
         /// <summary>
-        /// Fonction pour la création de l'entête
+        /// Fonction pour la création de l'en-tête
         /// </summary>
         static void CreationEnTete()
         {
@@ -42,6 +39,7 @@ namespace puissance4_Martins
         /// </summary>
         /// <param name="nombreColonnes">Ressort le nombre de colonnes choisi</param>
         /// <param name="nombreLignes">Ressort le nombre de lignes choisi</param>
+        /// <returns>Retourne le nombre de lignes et colonnes choisies par l'utilisateur</returns>
         static void MenuDemarrage(out int nombreColonnes, out int nombreLignes)
         {
             bool valeurOK;
@@ -139,23 +137,22 @@ namespace puissance4_Martins
             }
             while (!valeurOK);
         }
-
         /// <summary>
-        /// Cette fonction permet la création et l'affichage du tableau
+        /// Création de la ligne de navigation pour le jeu
         /// </summary>
-        /// <param name="Colonnes">Prend le nombre de colonnes de l'utilisateur</param>
-        /// <param name="Lignes">Prend le nombre de lignes de l'utilisateur</param>
-        static char[,] GenTableau(int Colonnes, int Lignes)
+        /// <param name="ligne">Prend le param 1 pour definir une ligne</param>
+        /// <param name="Colonnes">Prend la quantité de colonnes choisie</param>
+        /// <returns>Retourne la ligne de navigation créée</returns>
+        static char[,] GenNavigation(int ligne, int Colonnes)
         {
-            // Création d'un nouvel élement tableau
-            char[,] tableau = new char[Lignes, Colonnes];
+            char[,] barreNav = new char[ligne, Colonnes];
 
             // Boucle pour création des lignes avec boucle imbriquée pour création des colonnes
-            for (int r = 0; r < Lignes; r++)
+            for (int r = 0; r < ligne; r++)
             {
                 for (int c = 0; c < Colonnes; c++)
                 {
-                    Gameplay(tableau);
+                    barreNav[r, c] = ' ';
                 }
             }
 
@@ -186,15 +183,15 @@ namespace puissance4_Martins
                 {
                     if (c == 0)
                     {
-                        Console.Write("\t║  " + tableau[r, c] + "  ");
+                        Console.Write("\t║  " + barreNav[r, c] + "  ");
                     }
                     else if (c < Colonnes - 1)
                     {
-                        Console.Write("║  " + tableau[r, c] + "  ");
+                        Console.Write("║  " + barreNav[r, c] + "  ");
                     }
                     else
                     {
-                        Console.Write("║  " + tableau[r, c] + "  ║");
+                        Console.Write("║  " + barreNav[r, c] + "  ║");
                     }
 
                 }
@@ -220,9 +217,30 @@ namespace puissance4_Martins
                     }
                 }
             }
+            Console.WriteLine();
+            Console.WriteLine();
 
-            Console.WriteLine();
-            Console.WriteLine();
+            return barreNav;
+        }
+        /// <summary>
+        /// Cette fonction permet la création et l'affichage du tableau
+        /// </summary>
+        /// <param name="Colonnes">Prend le nombre de colonnes de l'utilisateur</param>
+        /// <param name="Lignes">Prend le nombre de lignes de l'utilisateur</param>
+        /// <returns>Retourne le tableau créé</returns>
+        static char[,] GenTableau(int Colonnes, int Lignes)
+        {
+            // Création d'un nouvel élement tableau
+            char[,] tableau = new char[Lignes, Colonnes];
+
+            // Boucle pour création des lignes avec boucle imbriquée pour création des colonnes
+            for (int r = 0; r < Lignes; r++)
+            {
+                for (int c = 0; c < Colonnes; c++)
+                {
+                    tableau[r, c] = ' ';
+                }
+            }
 
             // Boucles pour affichage du tableau
             // Boucle pour la première ligne
@@ -302,9 +320,11 @@ namespace puissance4_Martins
                 }
             }
 
+            // Calcul de la distance du tableau pour afficher le menu "Aide"
             int tableauLargeur = 8 * Colonnes;
             int offset = tableauLargeur + 10;
 
+            // Création du menu "Aide"
             Console.SetCursorPosition(offset, 5);
             Console.Write("Mode d'utilisation");
             Console.WriteLine();
@@ -324,14 +344,14 @@ namespace puissance4_Martins
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("Jouer 1: ■");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("\t\tJoueur 2: ■");
+            Console.Write("\t\tJoueur 2: ■ ");
             Console.ForegroundColor = ConsoleColor.White;
 
             return tableau;
         }
-        static void Gameplay(char[,] tableau)
+        static void Gameplay(char[,] tableau, char[,] barreNav)
         {
-            tableau[0, 0] = '■';
+            tableau[0, 0] = 'X';
         }
     }
 }
