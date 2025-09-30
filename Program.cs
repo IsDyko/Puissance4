@@ -374,6 +374,13 @@ namespace puissance4_Martins
             Console.Write("\t\tJoueur 2: ■ ");
             Console.ForegroundColor = ConsoleColor.White;
         }
+        /// <summary>
+        /// Fonction qui depose la piece et permet le changement de joueur
+        /// </summary>
+        /// <param name="joueurActif">Prend le joueur actuel</param>
+        /// <param name="tableau">prend le tableau utilisé</param>
+        /// <param name="col">Prend les nombre de colonnes</param>
+        /// <returns>Booléen pour savoir si on peut poser ou pas</returns>
         static bool DeposePiece(int joueurActif, char[,] tableau, int col)
         {
             int lignes = tableau.GetLength(0);
@@ -392,6 +399,11 @@ namespace puissance4_Martins
             }
             return false;
         }
+        /// <summary>
+        /// Fonction de jeu principale
+        /// </summary>
+        /// <param name="tableau">prend le tableau en paramétres</param>
+        /// <param name="barreNav">Prend la barre nav</param>
         static void Gameplay(char[,] tableau, char[,] barreNav)
         {
             int lignes = tableau.GetLength(0);
