@@ -18,7 +18,6 @@ namespace puissance4_Martins
 
             Console.Clear();
 
-            CreationEnTete();
             var navigation = GenNavigation(1, nombreColonnes);
             var tableau = GenTableau(nombreColonnes, nombreLignes);
             Gameplay(tableau, navigation);
@@ -143,18 +142,27 @@ namespace puissance4_Martins
         /// <param name="ligne">Prend le param 1 pour definir une ligne</param>
         /// <param name="Colonnes">Prend la quantité de colonnes choisie</param>
         /// <returns>Retourne la ligne de navigation créée</returns>
-        static char[,] GenNavigation(int ligne, int Colonnes)
+        static char[,] GenNavigation(int Colonnes, int navCol)
         {
-            char[,] barreNav = new char[ligne, Colonnes];
+
+            // Délimitation du tableau pour empêcher les sorties du tableau et l'erreur OutOfRange
+            if (navCol < 0) navCol = 0;
+            if (navCol >= Colonnes) navCol = Colonnes - 1;
+
+            // Initialisation de la barre de navigation
+            char[,] barreNav = new char[1, Colonnes];
 
             // Boucle pour création des lignes avec boucle imbriquée pour création des colonnes
-            for (int r = 0; r < ligne; r++)
+            for (int r = 0; r < 1; r++)
             {
                 for (int c = 0; c < Colonnes; c++)
                 {
-                    barreNav[r, c] = ' ';
+                    barreNav[0, c] = ' ';
                 }
             }
+
+            // Initialisation du pion
+            barreNav[0, navCol] = '■';
 
             // Boucles pour affichage de la barre de navigation
             for (int r = 0; r < 1; r++)
@@ -183,15 +191,27 @@ namespace puissance4_Martins
                 {
                     if (c == 0)
                     {
-                        Console.Write("\t║  " + barreNav[r, c] + "  ");
+                        Console.Write("\t║  ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(barreNav[r, c]);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("  ");
                     }
                     else if (c < Colonnes - 1)
                     {
-                        Console.Write("║  " + barreNav[r, c] + "  ");
+                        Console.Write("║  ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(barreNav[r, c]);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("  ");
                     }
                     else
                     {
-                        Console.Write("║  " + barreNav[r, c] + "  ║");
+                        Console.Write("║  ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(barreNav[r, c]);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("  ║");
                     }
 
                 }
@@ -320,6 +340,17 @@ namespace puissance4_Martins
                 }
             }
 
+            // Affichege du menu aide
+            MenuAide(Colonnes);
+
+            return tableau;
+        }
+        /// <summary>
+        /// Création du menu aide à coté du tableau
+        /// </summary>
+        /// <param name="Colonnes">Prend le nombre de colonnes choisi par l'utilisateur</param>
+        static void MenuAide(int Colonnes)
+        {
             // Calcul de la distance du tableau pour afficher le menu "Aide"
             int tableauLargeur = 8 * Colonnes;
             int offset = tableauLargeur + 10;
@@ -346,12 +377,56 @@ namespace puissance4_Martins
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("\t\tJoueur 2: ■ ");
             Console.ForegroundColor = ConsoleColor.White;
-
-            return tableau;
         }
         static void Gameplay(char[,] tableau, char[,] barreNav)
         {
-            tableau[0, 0] = 'X';
+            int lignes = tableau.GetLength(0);
+            int colonnes = tableau.GetLength(1);
+            int navCol = 0;
+            Console.Clear();
+            
+            CreationEnTete();
+
+            int navTop = Console.CursorTop;
+            GenNavigation(colonnes, navCol);
+            GenTableau(colonnes, lignes);
+
+            while (true)
+            {
+                var key = Console.ReadKey(intercept: true).Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.RightArrow:
+                        if (navCol < colonnes - 1)
+                        {
+                            navCol++;
+                        }
+                        Console.SetCursorPosition(0, navTop);
+                        GenNavigation(colonnes, navCol);
+                        break;
+
+                    case ConsoleKey.LeftArrow:
+                        if (navCol > 0)
+                        {
+                            navCol--;
+                        }
+                        Console.SetCursorPosition(0, navTop);
+                        GenNavigation(colonnes, navCol);
+                        break;
+
+                    case ConsoleKey.Enter:
+                    case ConsoleKey.Spacebar:
+                        Console.SetCursorPosition(0, navTop);
+                        GenNavigation(colonnes, navCol);
+                        GenTableau(colonnes, lignes);
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+                }
+
+            }
         }
     }
 }
