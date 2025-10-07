@@ -1,34 +1,50 @@
-﻿using System;
+﻿//ETML
+//Créé par : Diogo Martins
+//Application en mode console du jeu Puissance4
+
+using System;
 
 namespace puissance4_Martins
 {
     internal class Program
     {
         static int joueurActif = 1;
+        static bool partie = true;
 
         static void Main(string[] args)
         {
-            int nombreColonnes;
-            int nombreLignes;
+            do
+            {
+                Console.CursorVisible = false;
+                Console.Clear();
 
-            Console.SetWindowPosition(0, 0);
-            Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-            Console.SetWindowSize(200, 50);
+                byte nombreColonnes;
+                byte nombreLignes;
 
-            CreationEnTete();
-            MenuDemarrage(out nombreColonnes, out nombreLignes);
+                Console.SetWindowPosition(0, 0);
+                Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                Console.SetWindowSize(200, 50);
 
-            Console.Clear();
+                CreationEnTete();
+                MenuDemarrage(out nombreColonnes, out nombreLignes);
 
-            var navigation = GenNavigation(nombreColonnes, 1);
-            // Creation du tableau
-            var tableau = new char[nombreLignes, nombreColonnes];
-            // Initialisation du tableau
-            for (int r = 0; r < nombreLignes; r++)
-                for (int c = 0; c < nombreColonnes; c++)
-                    tableau[r, c] = ' ';
+                Console.Clear();
 
-            Gameplay(tableau, navigation);
+                // Creation de la barre de navigation
+                char[,] navigation = GenNavigation(nombreColonnes, 1);
+                // Creation du tableau
+                char[,] tableau = new char[nombreLignes, nombreColonnes];
+                // Initialisation du tableau
+                for (int r = 0; r < nombreLignes; r++)
+                {
+                    for (int c = 0; c < nombreColonnes; c++)
+                    {
+                        tableau[r, c] = ' ';
+                    }
+                }
+                Gameplay(tableau, navigation);
+            }
+            while (partie);
         }
 
         /// <summary>
@@ -47,7 +63,7 @@ namespace puissance4_Martins
         /// <param name="nombreColonnes">Ressort le nombre de colonnes choisi</param>
         /// <param name="nombreLignes">Ressort le nombre de lignes choisi</param>
         /// <returns>Retourne le nombre de lignes et colonnes choisies par l'utilisateur</returns>
-        static void MenuDemarrage(out int nombreColonnes, out int nombreLignes)
+        static void MenuDemarrage(out byte nombreColonnes, out byte nombreLignes)
         {
             bool valeurOK;
 
@@ -65,7 +81,7 @@ namespace puissance4_Martins
             // Vérification de la première valeur
             do
             {
-                valeurOK = int.TryParse(Console.ReadLine(), out nombreLignes);
+                valeurOK = byte.TryParse(Console.ReadLine(), out nombreLignes);
 
                 if (!valeurOK)
                 {
@@ -79,7 +95,7 @@ namespace puissance4_Martins
                     do
                     {
                         Console.Write("\tVotre valeur: ");
-                        valeurOK = int.TryParse(Console.ReadLine(), out nombreLignes);
+                        valeurOK = byte.TryParse(Console.ReadLine(), out nombreLignes);
 
                         // Verification si c'est un chiffre ou pas la prochaine qu'on presse
                         if (!valeurOK)
@@ -113,7 +129,7 @@ namespace puissance4_Martins
             // Vérification nombre colonnes
             do
             {
-                valeurOK = int.TryParse(Console.ReadLine(), out nombreColonnes);
+                valeurOK = byte.TryParse(Console.ReadLine(), out nombreColonnes);
 
                 if (!valeurOK)
                 {
@@ -127,7 +143,7 @@ namespace puissance4_Martins
                     do
                     {
                         Console.Write("\tVotre valeur: ");
-                        valeurOK = int.TryParse(Console.ReadLine(), out nombreColonnes);
+                        valeurOK = byte.TryParse(Console.ReadLine(), out nombreColonnes);
 
                         if (!valeurOK)
                         {
@@ -154,8 +170,10 @@ namespace puissance4_Martins
         {
 
             // Délimitation du tableau pour empêcher les sorties du tableau et l'erreur OutOfRange
-            if (navCol < 0) navCol = 0;
-            if (navCol >= Colonnes) navCol = Colonnes - 1;
+            if (navCol < 0)
+                navCol = 0;
+            if (navCol >= Colonnes)
+                navCol = Colonnes - 1;
 
             // Initialisation de la barre de navigation
             char[,] barreNav = new char[1, Colonnes];
@@ -179,17 +197,11 @@ namespace puissance4_Martins
                 for (int c = 0; c < Colonnes; c++)
                 {
                     if (c == 0)
-                    {
                         Console.Write("\t╔═════╦");
-                    }
                     else if (c < Colonnes - 1)
-                    {
                         Console.Write("═════╦");
-                    }
                     else if (c < Colonnes)
-                    {
                         Console.Write("═════╗");
-                    }
                 }
 
                 Console.WriteLine();
@@ -201,10 +213,10 @@ namespace puissance4_Martins
                     {
                         Console.Write("\t║  ");
                         if (joueurActif == 1)
-                        {
                             Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        else Console.ForegroundColor = ConsoleColor.Yellow;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+
                         Console.Write(barreNav[r, c]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("  ");
@@ -213,10 +225,10 @@ namespace puissance4_Martins
                     {
                         Console.Write("║  ");
                         if (joueurActif == 1)
-                        {
                             Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        else Console.ForegroundColor = ConsoleColor.Yellow;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+
                         Console.Write(barreNav[r, c]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("  ");
@@ -225,10 +237,10 @@ namespace puissance4_Martins
                     {
                         Console.Write("║  ");
                         if (joueurActif == 1)
-                        {
                             Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        else Console.ForegroundColor = ConsoleColor.Yellow;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+
                         Console.Write(barreNav[r, c]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("  ║");
@@ -243,17 +255,11 @@ namespace puissance4_Martins
                 {
                     {
                         if (c == 0)
-                        {
                             Console.Write("\t╚═════╩");
-                        }
                         else if (c < Colonnes - 1)
-                        {
                             Console.Write("═════╩");
-                        }
                         else
-                        {
                             Console.Write("═════╝");
-                        }
                     }
                 }
             }
@@ -291,7 +297,8 @@ namespace puissance4_Martins
                 // Ligne du milieu
                 for (int c = 0; c < Colonnes; c++)
                 {
-                    if (c == 0) Console.Write("\t║  ");
+                    if (c == 0)
+                        Console.Write("\t║  ");
                     else Console.Write("║  ");
 
                     char pion = tableau[r, c];
@@ -311,11 +318,10 @@ namespace puissance4_Martins
                         Console.Write("  ");
                     }
                     else
-                    {
                         Console.Write("   ");
-                    }
 
-                    if (c == Colonnes - 1) Console.Write("║");
+                    if (c == Colonnes - 1)
+                        Console.Write("║");
                 }
                 Console.WriteLine();
 
@@ -324,15 +330,20 @@ namespace puissance4_Martins
                 {
                     if (r < Lignes - 1)
                     {
-                        if (c == 0) Console.Write("\t╠═════╬");
-                        else if (c == Colonnes - 1) Console.Write("═════╣");
+                        if (c == 0)
+                            Console.Write("\t╠═════╬");
+                        else if (c == Colonnes - 1)
+                            Console.Write("═════╣");
                         else Console.Write("═════╬");
                     }
                     else
                     {
-                        if (c == 0) Console.Write("\t╚═════╩");
-                        else if (c == Colonnes - 1) Console.Write("═════╝");
-                        else Console.Write("═════╩");
+                        if (c == 0)
+                            Console.Write("\t╚═════╩");
+                        else if (c == Colonnes - 1)
+                            Console.Write("═════╝");
+                        else
+                            Console.Write("═════╩");
                     }
                 }
             }
@@ -340,7 +351,6 @@ namespace puissance4_Martins
             // Menu aide
             MenuAide(Colonnes);
         }
-
         /// <summary>
         /// Création du menu aide à coté du tableau
         /// </summary>
@@ -380,19 +390,24 @@ namespace puissance4_Martins
         /// <param name="joueurActif">Prend le joueur actuel</param>
         /// <param name="tableau">prend le tableau utilisé</param>
         /// <param name="col">Prend les nombre de colonnes</param>
-        /// <returns>Booléen pour savoir si on peut poser ou pas</returns>
+        /// <returns>Booléen pour savoir si on pose ou pas</returns>
         static bool DeposePiece(int joueurActif, char[,] tableau, int col)
         {
+            // Obtention du nombre de lignes et colonnes
             int lignes = tableau.GetLength(0);
             int colonnes = tableau.GetLength(1);
 
+            // Condition pour éviter l'erreur OutOfRange
             if (col < 0 || col >= colonnes)
                 return false;
 
+            // Parcourir le tableau depuis la derniere case de la colonne
             for (int r = lignes - 1; r >= 0; r--)
             {
+                // Si case vide
                 if (tableau[r, col] == ' ')
                 {
+                    // Poser la pièce
                     tableau[r, col] = (joueurActif == 1) ? 'X' : 'O';
                     return true;
                 }
@@ -402,7 +417,7 @@ namespace puissance4_Martins
         /// <summary>
         /// Fonction de jeu principale
         /// </summary>
-        /// <param name="tableau">prend le tableau en paramétres</param>
+        /// <param name="tableau">Prend le tableau en paramétres</param>
         /// <param name="barreNav">Prend la barre nav</param>
         static void Gameplay(char[,] tableau, char[,] barreNav)
         {
@@ -417,8 +432,9 @@ namespace puissance4_Martins
             GenNavigation(colonnes, navCol);
             int tableauTop = Console.CursorTop;
             GenTableau(tableau);
+            bool partieEnCours = true;
 
-            while (true)
+            while (partieEnCours)
             {
                 var key = Console.ReadKey(intercept: true).Key;
 
@@ -426,18 +442,16 @@ namespace puissance4_Martins
                 {
                     case ConsoleKey.RightArrow:
                         if (navCol < colonnes - 1)
-                        {
                             navCol++;
-                        }
+
                         Console.SetCursorPosition(0, navTop);
                         GenNavigation(colonnes, navCol);
                         break;
 
                     case ConsoleKey.LeftArrow:
                         if (navCol > 0)
-                        {
                             navCol--;
-                        }
+
                         Console.SetCursorPosition(0, navTop);
                         GenNavigation(colonnes, navCol);
                         break;
@@ -445,16 +459,18 @@ namespace puissance4_Martins
                     case ConsoleKey.Enter:
                     case ConsoleKey.Spacebar:
                         if (navCol < 0)
-                        {
                             navCol = 0;
-                        }
                         if (navCol >= colonnes)
-                        {
                             navCol = colonnes - 1;
-                        }
                         if (DeposePiece(joueurActif, tableau, navCol))
                         {
                             joueurActif = (joueurActif == 1) ? 2 : 1;
+                            if (TableauPlein(tableau))
+                            {
+                                ConditionVictoire(tableau);
+                                partieEnCours = false;
+                                continue;
+                            }
                         }
                         Console.SetCursorPosition(0, navTop);
                         GenNavigation(colonnes, navCol);
@@ -463,10 +479,51 @@ namespace puissance4_Martins
                         break;
 
                     case ConsoleKey.Escape:
-                        return;
+                        Environment.Exit(0);
+                        break;
                 }
-
             }
+        }
+        /// <summary>
+        /// Fonction qui vérifie si il y a encore une case jouable dans le tableau
+        /// </summary>
+        /// <param name="tableau">Tableau de jeu créé au début</param>
+        /// <returns>Booléen pour savoir si on finit la partie ou pas</returns>
+        static bool TableauPlein(char[,] tableau)
+        {
+            int lignes = tableau.GetLength(0);
+            int colonnes = tableau.GetLength(1);
+
+            for (int i = 0; i < lignes; i++)
+            {
+                for (int j = 0; j < colonnes; j++)
+                {
+                    if (tableau[i, j] == ' ')
+                        return false;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// Fonction qui regardera les conditions de victoire
+        /// </summary>
+        /// <param name="tableau">Prends le tableau de jeu en paramètre</param>
+        /// <returns>Un booléen pour savoir si la partie est finie ou pas</returns>
+        static bool ConditionVictoire(char[,] tableau)
+        {
+            Console.Clear();
+
+            Console.WriteLine("Egalité, votre grille est pleine");
+            Console.WriteLine("Souhaitez vous recommencer ? (o/O)");
+
+            char confirmation = Convert.ToChar(Console.ReadLine());
+
+            if (!(confirmation == 'o' || confirmation == 'O'))
+            {
+                partie = false;
+                return true;
+            }
+            return false;
         }
     }
 }
