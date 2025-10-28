@@ -141,7 +141,7 @@ Si la grille est pleine sans gagnant → match nul.
 
 Diogo Martins
 Étudiant en développement d’applications — ETML
-📧 [ton-email@exemple.ch
+📧 [
 ]
 🌐 github.com/DiogoMartins
 
@@ -152,6 +152,3 @@ Ce projet est un excellent exercice pour renforcer ta logique et ta maîtrise du
 
 
 ---
-
-Souhaites-tu que je te crée une **version “README-light”** (plus courte, 10 lignes max, adaptée à la vue d’ensemble GitHub) à mettre tout en haut de ton dépôt ?  
-👉 Idéal pour donner envie de cliquer sans tout lire.
