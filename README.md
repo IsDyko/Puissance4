@@ -78,6 +78,7 @@ if (tableau[r, col] == ' ')
     tableau[r, col] = (joueurActif == 1) ? 'X' : 'O';
     return true;
 }
+```
 👉 Ce bloc vérifie si la case est vide, puis place la pièce du joueur actif (X ou O).
 
 🧰 Technologies utilisées
