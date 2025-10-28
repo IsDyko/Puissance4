@@ -81,7 +81,7 @@ if (tableau[r, col] == ' ')
 ```
 👉 Ce bloc vérifie si la case est vide, puis place la pièce du joueur actif (X ou O).
 
-🧰 Technologies utilisées
+## 🧰 Technologies utilisées
 
 Langage : C#
 
@@ -91,7 +91,7 @@ IDE : Visual Studio / VS Code
 
 Compatibilité : Windows, macOS, Linux (console UTF-8)
 
-🚀 Installation et exécution
+## 🚀 Installation et exécution
 1️⃣ Cloner le projet
 git clone https://github.com/<ton-utilisateur>/Puissance4_Martins.git
 
@@ -101,7 +101,7 @@ cd Puissance4_Martins
 3️⃣ Exécuter
 dotnet run
 
-📜 Règles du jeu
+## 📜 Règles du jeu
 
 Deux joueurs jouent à tour de rôle.
 
@@ -113,7 +113,7 @@ Le premier à aligner 4 pions gagne.
 
 Si la grille est pleine sans gagnant → match nul.
 
-🧩 Bonnes pratiques respectées
+## 🧩 Bonnes pratiques respectées
 
 ✅ Variables explicites
 
@@ -127,7 +127,7 @@ Si la grille est pleine sans gagnant → match nul.
 
 ✅ Respect des conventions C# (PascalCase / camelCase)
 
-💬 Améliorations futures
+## 💬 Améliorations futures
 
 🟢 Mode solo contre IA
 
@@ -137,7 +137,7 @@ Si la grille est pleine sans gagnant → match nul.
 
 🟢 Statistiques et scores automatiques
 
-👨‍💻 Auteur
+## 👨‍💻 Auteur
 
 Diogo Martins
 Étudiant en développement d’applications — ETML
