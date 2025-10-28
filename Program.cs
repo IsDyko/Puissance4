@@ -9,6 +9,31 @@ namespace puissance4_Martins
 {
     internal class Program
     {
+        // Limites du plateau
+        const int MIN_LIGNES = 5;
+        const int MAX_LIGNES = 13;
+        const int MIN_COLONNES = 6;
+        const int MAX_COLONNES = 16;
+
+        // Fenêtre console
+        const int LARGEUR_FENETRE = 200;
+        const int HAUTEUR_FENETRE = 50;
+
+        // Layout
+        const int LARGEUR_COLONNE_AFFICHAGE = 8;
+        const int OFFSET_AIDE = 10;
+
+        // Symboles de jeu
+        const char CASE_VIDE = ' ';
+        const char PION_JOUEUR1 = 'X';
+        const char PION_JOUEUR2 = 'O';
+        const char CURSEUR = '■';
+
+        // Couleurs
+        const ConsoleColor COULEUR_JOUEUR1 = ConsoleColor.Red;
+        const ConsoleColor COULEUR_JOUEUR2 = ConsoleColor.Yellow;
+        const ConsoleColor COULEUR_TEXTE = ConsoleColor.White;
+
         static int joueurActif = 1;
         static bool partie = true;
 
@@ -24,7 +49,7 @@ namespace puissance4_Martins
 
                 Console.SetWindowPosition(0, 0);
                 Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-                Console.SetWindowSize(200, 50);
+                Console.SetWindowSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
 
                 CreationEnTete();
                 MenuDemarrage(out nombreColonnes, out nombreLignes);
@@ -40,7 +65,7 @@ namespace puissance4_Martins
                 {
                     for (int c = 0; c < nombreColonnes; c++)
                     {
-                        tableau[r, c] = ' ';
+                        tableau[r, c] = CASE_VIDE;
                     }
                 }
                 Gameplay(tableau, navigation);
@@ -71,11 +96,11 @@ namespace puissance4_Martins
             //Nombre de lignes
             Console.Write("\tMerci d'entrer le nombre de lignes\n \tLa valeur doit être plus grande que ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(5);
+            Console.Write(MIN_LIGNES);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(" et plus petite que ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(13);
+            Console.Write(MAX_LIGNES);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\n\tVotre valeur: ");
 
@@ -89,9 +114,9 @@ namespace puissance4_Martins
                     Console.WriteLine("\tVotre valeur n'est pas un nombre ! Merci de réessayer !");
                     Console.Write("\tVotre valeur: ");
                 }
-                else if (nombreLignes < 5 || nombreLignes > 13)
+                else if (nombreLignes < MIN_LIGNES || nombreLignes > MAX_LIGNES)
                 {
-                    Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > 5 et < 13. Merci de réessayer !");
+                    Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > MIN_LIGNES et < MAX_LIGNES. Merci de réessayer !");
 
                     do
                     {
@@ -106,12 +131,12 @@ namespace puissance4_Martins
                         }
 
                         // Verification si c'est dans les limites la prochaine fois qu'on presse
-                        if (nombreLignes < 5 || nombreLignes > 13)
+                        if (nombreLignes < MIN_LIGNES || nombreLignes > MAX_LIGNES)
                         {
-                            Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > 5 et < 13, Merci de réessayer !");
+                            Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > MIN_LIGNES et < MAX_LIGNES, Merci de réessayer !");
                         }
                     }
-                    while (nombreLignes < 5 || nombreLignes > 13 || !valeurOK);
+                    while (nombreLignes < MIN_LIGNES || nombreLignes > MAX_LIGNES || !valeurOK);
                 }
             }
             while (!valeurOK);
@@ -119,11 +144,11 @@ namespace puissance4_Martins
             // Nombre colonnes
             Console.Write("\tMerci d'entrer le nombre de colonnes\n \tLa valeur doit être plus grande que ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(6);
+            Console.Write(MIN_COLONNES);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(" et plus petite que ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(16);
+            Console.Write(MAX_COLONNES);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\n\tVotre valeur: ");
 
@@ -137,9 +162,9 @@ namespace puissance4_Martins
                     Console.WriteLine("\tVotre valeur n'est pas un nombre ! Merci de réessayer !");
                     Console.Write("\tVotre valeur: ");
                 }
-                else if (nombreColonnes < 6 || nombreColonnes > 16)
+                else if (nombreColonnes < MIN_COLONNES || nombreColonnes > MAX_COLONNES)
                 {
-                    Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > 6 et < 16. Merci de réessayer !");
+                    Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > MIN_COLONNES et < MAX_COLONNES. Merci de réessayer !");
 
                     do
                     {
@@ -151,12 +176,12 @@ namespace puissance4_Martins
                             Console.WriteLine("\tVotre valeur n'es pas un chiffre. Réessayez");
                             continue;
                         }
-                        if (nombreColonnes < 6 || nombreColonnes > 16)
+                        if (nombreColonnes < MIN_COLONNES || nombreColonnes > MAX_COLONNES)
                         {
-                            Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > 6 et < 16, Merci de réessayer !");
+                            Console.WriteLine("\tVotre valeur n'est pas dans les limites fixées > MIN_COLONNES et < MAX_COLONNES, Merci de réessayer !");
                         }
                     }
-                    while (nombreColonnes < 6 || nombreColonnes > 16 || !valeurOK);
+                    while (nombreColonnes < MIN_COLONNES || nombreColonnes > MAX_COLONNES || !valeurOK);
                 }
             }
             while (!valeurOK);
@@ -360,10 +385,10 @@ namespace puissance4_Martins
             int offset = tableauLargeur + 10;
 
             // Création du menu "Aide"
-            Console.SetCursorPosition(offset, 5);
+            Console.SetCursorPosition(offset, MIN_LIGNES);
             Console.Write("Mode d'utilisation");
             Console.WriteLine();
-            Console.SetCursorPosition(offset, 6);
+            Console.SetCursorPosition(offset, MIN_COLONNES);
             Console.Write("-------------------");
             Console.WriteLine();
             Console.SetCursorPosition(offset + 3, 7);
@@ -403,10 +428,10 @@ namespace puissance4_Martins
             for (int r = lignes - 1; r >= 0; r--)
             {
                 // Si case vide
-                if (tableau[r, col] == ' ')
+                if (tableau[r, col] == CASE_VIDE)
                 {
                     // Poser la pièce
-                    tableau[r, col] = (joueurActif == 1) ? 'X' : 'O';
+                    tableau[r, col] = (joueurActif == 1) ? PION_JOUEUR1 : PION_JOUEUR2;
                     return true;
                 }
             }
