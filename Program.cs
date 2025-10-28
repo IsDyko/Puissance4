@@ -212,7 +212,7 @@ namespace puissance4_Martins
             }
 
             // Initialisation du pion
-            barreNav[0, navCol] = '■';
+            barreNav[0, navCol] = CURSEUR;
 
             // Boucles pour affichage de la barre de navigation
             for (int r = 0; r < 1; r++)
@@ -230,46 +230,29 @@ namespace puissance4_Martins
 
                 Console.WriteLine();
 
-                //Ligne du milieu
+                // Ligne du milieu
                 for (int c = 0; c < Colonnes; c++)
                 {
+                    // Bordure gauche avec indentation
                     if (c == 0)
-                    {
                         Console.Write("\t║  ");
-                        if (joueurActif == 1)
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        else
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-
-                        Console.Write(barreNav[r, c]);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("  ");
-                    }
-                    else if (c < Colonnes - 1)
-                    {
-                        Console.Write("║  ");
-                        if (joueurActif == 1)
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        else
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-
-                        Console.Write(barreNav[r, c]);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("  ");
-                    }
                     else
-                    {
                         Console.Write("║  ");
-                        if (joueurActif == 1)
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        else
-                            Console.ForegroundColor = ConsoleColor.Yellow;
 
-                        Console.Write(barreNav[r, c]);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("  ║");
-                    }
+                    // Couleur selon le joueur actif
+                    Console.ForegroundColor = (joueurActif == 1) ? COULEUR_JOUEUR1 : COULEUR_JOUEUR2;
 
+                    // Affiche le pion de navigation
+                    Console.Write(barreNav[r, c]);
+
+                    // Retour couleur normale
+                    Console.ForegroundColor = COULEUR_TEXTE;
+
+                    // Espace après le pion
+                    if (c == Colonnes - 1)
+                        Console.Write("  ║"); // Bordure droite
+                    else
+                        Console.Write("  ");
                 }
 
                 Console.WriteLine();
@@ -320,29 +303,35 @@ namespace puissance4_Martins
                 // Ligne du milieu
                 for (int c = 0; c < Colonnes; c++)
                 {
+                    // Bordure gauche : tabulation au début de la ligne seulement
                     if (c == 0)
                         Console.Write("\t║  ");
-                    else Console.Write("║  ");
+                    else
+                        Console.Write("║  ");
 
                     char pion = tableau[r, c];
 
-                    if (pion == 'X')
+                    if (pion == PION_JOUEUR1)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = COULEUR_JOUEUR1;
                         Console.Write("■");
-                        Console.ResetColor();
+                        Console.ForegroundColor = COULEUR_TEXTE;
                         Console.Write("  ");
                     }
-                    else if (pion == 'O')
+                    else if (pion == PION_JOUEUR2)
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = COULEUR_JOUEUR2;
                         Console.Write("■");
-                        Console.ResetColor();
+                        Console.ForegroundColor = COULEUR_TEXTE;
                         Console.Write("  ");
                     }
                     else
+                    {
+                        // Case vide
                         Console.Write("   ");
+                    }
 
+                    // Bordure droite quand on arrive à la dernière colonne
                     if (c == Colonnes - 1)
                         Console.Write("║");
                 }
@@ -381,8 +370,8 @@ namespace puissance4_Martins
         static void MenuAide(int Colonnes)
         {
             // Calcul de la distance du tableau pour afficher le menu "Aide"
-            int tableauLargeur = 8 * Colonnes;
-            int offset = tableauLargeur + 10;
+            int tableauLargeur = LARGEUR_COLONNE_AFFICHAGE * Colonnes;
+            int offset = tableauLargeur + OFFSET_AIDE;
 
             // Création du menu "Aide"
             Console.SetCursorPosition(offset, MIN_LIGNES);
@@ -529,7 +518,7 @@ namespace puissance4_Martins
                 for (int j = 0; j < colonnes; j++)
                 {
                     // Si une case est vide, le tableau n'est pas plein
-                    if (tableau[i, j] == ' ')
+                    if (tableau[i, j] == CASE_VIDE)
                         return false;
                 }
             }
