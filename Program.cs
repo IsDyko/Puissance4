@@ -3,6 +3,7 @@
 //Application en mode console du jeu Puissance4
 
 using System;
+using System.Diagnostics;
 
 namespace puissance4_Martins
 {
@@ -163,7 +164,7 @@ namespace puissance4_Martins
         /// <summary>
         /// Création de la ligne de navigation pour le jeu
         /// </summary>
-        /// <param name="ligne">Prend le param 1 pour definir une ligne</param>
+        /// <param name="navCol">Prend le param de la colonne ou on est maintenant dans la barre de nav</param>
         /// <param name="Colonnes">Prend la quantité de colonnes choisie</param>
         /// <returns>Retourne la ligne de navigation créée</returns>
         static char[,] GenNavigation(int Colonnes, int navCol)
@@ -269,8 +270,7 @@ namespace puissance4_Martins
         /// <summary>
         /// Cette fonction permet la création et l'affichage du tableau
         /// </summary>
-        /// <param name="Colonnes">Prend le nombre de colonnes de l'utilisateur</param>
-        /// <param name="Lignes">Prend le nombre de lignes de l'utilisateur</param>
+        /// <param name="tableau">Prend le tableau utilisé</param>
         /// <returns>Retourne le tableau créé</returns>
         static void GenTableau(char[,] tableau)
         {
@@ -517,20 +517,34 @@ namespace puissance4_Martins
         /// <returns>Un booléen pour savoir si la partie est finie ou pas</returns>
         static bool ConditionVictoire(char[,] tableau)
         {
+            bool verif = true;
             Console.Clear();
-
-            Console.WriteLine("Egalité, votre grille est pleine");
-            Console.WriteLine("Souhaitez vous recommencer ? (o/O)");
-
-            // Confirmation de l'utilisateur pour rejouer ou pas
-            char confirmation = Convert.ToChar(Console.ReadLine());
-
-            // Si l'utilisateur ne veut pas rejouer, on met la variable partie à false pour arrêter le jeu
-            if (!(confirmation == 'o' || confirmation == 'O'))
+            do
             {
-                partie = false;
-                return true;
+                try
+                {
+                    Console.WriteLine("Egalité, votre grille est pleine");
+                    Console.WriteLine("Souhaitez vous recommencer ? (o/O)");
+
+                    // Confirmation de l'utilisateur pour rejouer ou pas
+                    char confirmation = Convert.ToChar(Console.ReadLine());
+
+                    // Si l'utilisateur ne veut pas rejouer, on met la variable partie à false pour arrêter le jeu
+                    if (!(confirmation == 'o' || confirmation == 'O'))
+                    {
+                        Console.WriteLine("Au revoir");
+                        partie = false;
+                        return true;
+                    }
+                    verif = false;
+                }
+                catch (SystemException erreur)
+                {
+                    Console.WriteLine("Votre choix n'est pas valide\n");
+                    Debug.WriteLine(erreur);
+                }
             }
+            while (verif);
             return false;
         }
     }
